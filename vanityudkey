@@ -1,0 +1,357 @@
+-- ╦  ╦╔═╗╔╗╔╦╔╦╗╦ ╦  ╦ ╦╦
+-- ╚╗╔╝╠═╣║║║║ ║ ╚╦╝  ║ ║║
+--  ╚╝ ╩ ╩╝╚╝╩ ╩  ╩   ╚═╝╩
+
+--[[
+  ____   ____      _    _   _ ___ _______   __  _   _ ___ 
+ |  _ \ / ___|    / \  | \ | |_ _|_   _\ \ / / | | | |_ _|
+ | | | | |  _    / _ \ |  \| || |  | |  \ V /  | | | || | 
+ | |_| | |_| |  / ___ \| |\  || |  | |   | |   | |_| || | 
+ |____/ \____|_/_/   \_\_| \_|___| |_|   |_|    \___/|___|
+                |_____|                                     
+
+ ═══════════════════════════════════════════════════════
+ Created by: Spooky & Ace
+ Version: 2.0 (Arsenal Edition)
+ Theme: Purple Galaxy 🌌
+ ═══════════════════════════════════════════════════════
+]]
+
+-- ═══════════════════════════════════════════════════════
+--                    KEY SYSTEM
+-- ═══════════════════════════════════════════════════════
+-- 🔑 CHANGE YOUR KEY HERE (Easy to update anytime!)
+local CORRECT_KEY = "spooky+aceundetected"
+-- ═══════════════════════════════════════════════════════
+
+local Players = game:GetService("Players")
+local LocalPlayer = Players.LocalPlayer
+local UserInputService = game:GetService("UserInputService")
+
+-- Key validation function
+local function validateKey(inputKey)
+    return inputKey == CORRECT_KEY
+end
+
+-- Create Key System GUI
+local KeySystemGui = Instance.new("ScreenGui")
+KeySystemGui.Name = "VanityKeySystem"
+KeySystemGui.ResetOnSpawn = false
+KeySystemGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
+
+-- Main Frame (Purple Galaxy Theme)
+local MainFrame = Instance.new("Frame")
+MainFrame.Name = "MainFrame"
+MainFrame.Parent = KeySystemGui
+MainFrame.AnchorPoint = Vector2.new(0.5, 0.5)
+MainFrame.BackgroundColor3 = Color3.fromRGB(20, 10, 30) -- Dark purple
+MainFrame.BorderSizePixel = 0
+MainFrame.Position = UDim2.new(0.5, 0, 0.5, 0)
+MainFrame.Size = UDim2.new(0, 400, 0, 250)
+
+local MainCorner = Instance.new("UICorner")
+MainCorner.CornerRadius = UDim.new(0, 15)
+MainCorner.Parent = MainFrame
+
+-- Gradient for galaxy effect
+local Gradient = Instance.new("UIGradient")
+Gradient.Color = ColorSequence.new{
+    ColorSequenceKeypoint.new(0, Color3.fromRGB(20, 10, 30)),
+    ColorSequenceKeypoint.new(0.5, Color3.fromRGB(35, 15, 55)),
+    ColorSequenceKeypoint.new(1, Color3.fromRGB(20, 10, 30))
+}
+Gradient.Rotation = 45
+Gradient.Parent = MainFrame
+
+-- Glow effect
+local Glow = Instance.new("ImageLabel")
+Glow.Name = "Glow"
+Glow.Parent = MainFrame
+Glow.BackgroundTransparency = 1
+Glow.Position = UDim2.new(0.5, 0, 0.5, 0)
+Glow.Size = UDim2.new(1, 30, 1, 30)
+Glow.AnchorPoint = Vector2.new(0.5, 0.5)
+Glow.Image = "rbxassetid://4996891970"
+Glow.ImageColor3 = Color3.fromRGB(138, 43, 226) -- Purple
+Glow.ImageTransparency = 0.5
+Glow.ZIndex = 0
+
+-- Title
+local Title = Instance.new("TextLabel")
+Title.Name = "Title"
+Title.Parent = MainFrame
+Title.BackgroundTransparency = 1
+Title.Position = UDim2.new(0, 0, 0, 10)
+Title.Size = UDim2.new(1, 0, 0, 40)
+Title.Font = Enum.Font.GothamBold
+Title.Text = "✨ VANITY UI ✨"
+Title.TextColor3 = Color3.fromRGB(200, 150, 255) -- Light purple
+Title.TextSize = 28
+Title.TextStrokeTransparency = 0.5
+
+-- Subtitle
+local Subtitle = Instance.new("TextLabel")
+Subtitle.Name = "Subtitle"
+Subtitle.Parent = MainFrame
+Subtitle.BackgroundTransparency = 1
+Subtitle.Position = UDim2.new(0, 0, 0, 50)
+Subtitle.Size = UDim2.new(1, 0, 0, 25)
+Subtitle.Font = Enum.Font.Gotham
+Subtitle.Text = "🌌 Purple Galaxy Edition"
+Subtitle.TextColor3 = Color3.fromRGB(180, 130, 235)
+Subtitle.TextSize = 14
+
+-- Key Input Box
+local KeyBox = Instance.new("TextBox")
+KeyBox.Name = "KeyBox"
+KeyBox.Parent = MainFrame
+KeyBox.AnchorPoint = Vector2.new(0.5, 0)
+KeyBox.BackgroundColor3 = Color3.fromRGB(35, 15, 55) -- Medium purple
+KeyBox.BorderSizePixel = 0
+KeyBox.Position = UDim2.new(0.5, 0, 0.4, 0)
+KeyBox.Size = UDim2.new(0, 320, 0, 40)
+KeyBox.Font = Enum.Font.Gotham
+KeyBox.PlaceholderText = "Enter Key..."
+KeyBox.PlaceholderColor3 = Color3.fromRGB(150, 100, 200)
+KeyBox.Text = ""
+KeyBox.TextColor3 = Color3.fromRGB(200, 150, 255)
+KeyBox.TextSize = 16
+KeyBox.ClearTextOnFocus = false
+
+local KeyBoxCorner = Instance.new("UICorner")
+KeyBoxCorner.CornerRadius = UDim.new(0, 8)
+KeyBoxCorner.Parent = KeyBox
+
+local KeyBoxStroke = Instance.new("UIStroke")
+KeyBoxStroke.Color = Color3.fromRGB(138, 43, 226)
+KeyBoxStroke.Thickness = 2
+KeyBoxStroke.Parent = KeyBox
+
+-- Submit Button
+local SubmitButton = Instance.new("TextButton")
+SubmitButton.Name = "SubmitButton"
+SubmitButton.Parent = MainFrame
+SubmitButton.AnchorPoint = Vector2.new(0.5, 0)
+SubmitButton.BackgroundColor3 = Color3.fromRGB(138, 43, 226) -- Purple
+SubmitButton.BorderSizePixel = 0
+SubmitButton.Position = UDim2.new(0.5, 0, 0.65, 0)
+SubmitButton.Size = UDim2.new(0, 150, 0, 40)
+SubmitButton.Font = Enum.Font.GothamBold
+SubmitButton.Text = "🔓 SUBMIT"
+SubmitButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+SubmitButton.TextSize = 16
+
+local SubmitCorner = Instance.new("UICorner")
+SubmitCorner.CornerRadius = UDim.new(0, 8)
+SubmitCorner.Parent = SubmitButton
+
+-- Status Label
+local StatusLabel = Instance.new("TextLabel")
+StatusLabel.Name = "StatusLabel"
+StatusLabel.Parent = MainFrame
+StatusLabel.BackgroundTransparency = 1
+StatusLabel.Position = UDim2.new(0, 0, 0.85, 0)
+StatusLabel.Size = UDim2.new(1, 0, 0, 25)
+StatusLabel.Font = Enum.Font.Gotham
+StatusLabel.Text = "Created by Spooky & Ace"
+StatusLabel.TextColor3 = Color3.fromRGB(150, 100, 200)
+StatusLabel.TextSize = 12
+
+-- Close Button
+local CloseButton = Instance.new("TextButton")
+CloseButton.Name = "CloseButton"
+CloseButton.Parent = MainFrame
+CloseButton.BackgroundColor3 = Color3.fromRGB(60, 30, 90)
+CloseButton.BorderSizePixel = 0
+CloseButton.Position = UDim2.new(1, -35, 0, 5)
+CloseButton.Size = UDim2.new(0, 30, 0, 30)
+CloseButton.Font = Enum.Font.GothamBold
+CloseButton.Text = "✕"
+CloseButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+CloseButton.TextSize = 18
+
+local CloseCorner = Instance.new("UICorner")
+CloseCorner.CornerRadius = UDim.new(0, 8)
+CloseCorner.Parent = CloseButton
+
+-- Make frame draggable
+local dragging
+local dragInput
+local dragStart
+local startPos
+
+MainFrame.InputBegan:Connect(function(input)
+    if input.UserInputType == Enum.UserInputType.MouseButton1 then
+        dragging = true
+        dragStart = input.Position
+        startPos = MainFrame.Position
+    end
+end)
+
+MainFrame.InputChanged:Connect(function(input)
+    if input.UserInputType == Enum.UserInputType.MouseMovement then
+        dragInput = input
+    end
+end)
+
+UserInputService.InputChanged:Connect(function(input)
+    if input == dragInput and dragging then
+        local delta = input.Position - dragStart
+        MainFrame.Position = UDim2.new(startPos.X.Scale, startPos.X.Offset + delta.X, startPos.Y.Scale, startPos.Y.Offset + delta.Y)
+    end
+end)
+
+UserInputService.InputEnded:Connect(function(input)
+    if input.UserInputType == Enum.UserInputType.MouseButton1 then
+        dragging = false
+    end
+end)
+
+-- Animation effects
+local TweenService = game:GetService("TweenService")
+
+local function animateButton(button)
+    button.MouseEnter:Connect(function()
+        TweenService:Create(button, TweenInfo.new(0.2), {
+            BackgroundColor3 = Color3.fromRGB(158, 63, 246)
+        }):Play()
+    end)
+    
+    button.MouseLeave:Connect(function()
+        TweenService:Create(button, TweenInfo.new(0.2), {
+            BackgroundColor3 = Color3.fromRGB(138, 43, 226)
+        }):Play()
+    end)
+end
+
+animateButton(SubmitButton)
+
+-- Key validation
+local attempts = 0
+local maxAttempts = 5
+local lockoutTime = 60 -- seconds
+
+local function showStatus(message, color)
+    StatusLabel.Text = message
+    StatusLabel.TextColor3 = color
+    wait(3)
+    StatusLabel.Text = "Created by Spooky & Ace"
+    StatusLabel.TextColor3 = Color3.fromRGB(150, 100, 200)
+end
+
+local function loadScript()
+    -- Destroy key system
+    KeySystemGui:Destroy()
+    
+    -- Show loading notification
+    game:GetService("StarterGui"):SetCore("SendNotification", {
+        Title = "✨ VANITY UI ✨",
+        Text = "Key accepted! Loading...",
+        Duration = 3,
+    })
+    
+    wait(1)
+    
+    -- Load the main script
+    local success, err = pcall(function()
+        loadstring(game:HttpGet("https://raw.githubusercontent.com/infernobeams/Vanity-UI/refs/heads/main/VanityMain.lua"))()
+    end)
+    
+    if not success then
+        game:GetService("StarterGui"):SetCore("SendNotification", {
+            Title = "❌ VANITY UI Error",
+            Text = "Failed to load main script!",
+            Duration = 5,
+        })
+        warn("VANITY UI Load Error:", err)
+    end
+end
+
+SubmitButton.MouseButton1Click:Connect(function()
+    local inputKey = KeyBox.Text
+    
+    if attempts >= maxAttempts then
+        showStatus("⏰ Too many attempts! Wait " .. lockoutTime .. "s", Color3.fromRGB(255, 100, 100))
+        SubmitButton.Text = "🔒 LOCKED"
+        SubmitButton.Active = false
+        
+        task.wait(lockoutTime)
+        attempts = 0
+        SubmitButton.Text = "🔓 SUBMIT"
+        SubmitButton.Active = true
+        return
+    end
+    
+    if inputKey == "" then
+        showStatus("⚠️ Please enter a key!", Color3.fromRGB(255, 200, 100))
+        return
+    end
+    
+    if validateKey(inputKey) then
+        showStatus("✅ Key accepted! Loading...", Color3.fromRGB(100, 255, 100))
+        SubmitButton.Text = "✅ LOADING..."
+        SubmitButton.BackgroundColor3 = Color3.fromRGB(100, 255, 100)
+        wait(1)
+        loadScript()
+    else
+        attempts = attempts + 1
+        showStatus("❌ Invalid key! (" .. attempts .. "/" .. maxAttempts .. ")", Color3.fromRGB(255, 100, 100))
+        KeyBox.Text = ""
+        
+        -- Shake animation
+        local originalPos = MainFrame.Position
+        for i = 1, 3 do
+            MainFrame.Position = originalPos + UDim2.new(0, 10, 0, 0)
+            wait(0.05)
+            MainFrame.Position = originalPos - UDim2.new(0, 10, 0, 0)
+            wait(0.05)
+        end
+        MainFrame.Position = originalPos
+    end
+end)
+
+-- Enter key to submit
+KeyBox.FocusLost:Connect(function(enterPressed)
+    if enterPressed then
+        SubmitButton.MouseButton1Click:Fire()
+    end
+end)
+
+CloseButton.MouseButton1Click:Connect(function()
+    KeySystemGui:Destroy()
+    game:GetService("StarterGui"):SetCore("SendNotification", {
+        Title = "👋 VANITY UI",
+        Text = "Key system closed.",
+        Duration = 3,
+    })
+end)
+
+-- Parent to CoreGui
+KeySystemGui.Parent = game:GetService("CoreGui")
+
+-- Initial notification
+game:GetService("StarterGui"):SetCore("SendNotification", {
+    Title = "🔑 VANITY UI Key System",
+    Text = "Enter your key to continue",
+    Duration = 5,
+})
+
+-- Easter egg: Copy key to clipboard with special command
+KeyBox:GetPropertyChangedSignal("Text"):Connect(function()
+    if KeyBox.Text:lower() == "getkey" then
+        setclipboard(CORRECT_KEY)
+        showStatus("🔑 Key copied to clipboard!", Color3.fromRGB(138, 43, 226))
+        KeyBox.Text = ""
+    elseif KeyBox.Text:lower() == "discord" then
+        setclipboard("https://discord.gg/vanityui")
+        showStatus("💬 Discord link copied!", Color3.fromRGB(138, 43, 226))
+        KeyBox.Text = ""
+    end
+end)
+
+print("═══════════════════════════════════════════════════════")
+print("✨ VANITY UI - Key System Loaded")
+print("═══════════════════════════════════════════════════════")
+print("Current Key: " .. CORRECT_KEY)
+print("To change key, edit line 20 in the script")
+print("═══════════════════════════════════════════════════════")
